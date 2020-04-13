@@ -1,15 +1,9 @@
 variable "aws_private_endpoints" {
   type = map
-  # Example
-  # default = {
-  #   ec2 = "",
-  #   sts = ""
-  # }
-
-  # {
-  #   ec2 = "",
-  #   sts = ""
-  # }
+  default = {
+    ec2 = "",
+    sts = ""
+  }
 }
 
 variable "aws_region" {
