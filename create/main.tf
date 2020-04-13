@@ -1,6 +1,9 @@
 locals {
-  aws_region = "<insert AWS Region" #"us-west-1"
+  aws_region = "<insert AWS Region"
   aws_vpc_id = "<insert VPC ID>"
+  aws_subnet_ids = [
+    ""
+  ]
 
   # Update with AWS Service names
   services = [
@@ -13,7 +16,7 @@ locals {
 resource "aws_security_group" "vpcendpoint" {
   name        = "VPCEndpointSG"
   description = "AWS Services on VPC Endpoint Security Group"
-  vpc_id      = module.tfe1-networking.vpc_id
+  vpc_id      = local.aws_vpc_id
 
   ingress {
     from_port   = 0
@@ -33,10 +36,10 @@ resource "aws_security_group" "vpcendpoint" {
 resource "aws_vpc_endpoint" "aws_services" {
   for_each = toset(local.services)
 
-  vpc_id              = module.tfe1-networking.vpc_id
+  vpc_id              = local.aws_vpc_id
   service_name        = format("com.amazonaws.%s.%s", local.aws_region, each.value)
   vpc_endpoint_type   = "Interface"
-  subnet_ids          = module.tfe1-networking.private_subnet_ids
+  subnet_ids          = local.aws_subnet_ids
   private_dns_enabled = true
 
   security_group_ids = [
