@@ -5,11 +5,16 @@ variable "aws_private_endpoints" {
   #   ec2 = "",
   #   sts = ""
   # }
+
+  # {
+  #   ec2 = "",
+  #   sts = ""
+  # }
 }
 
 variable "aws_region" {
   description = "AWS region to deploy to. Must match the private endpoints."
-  value       = "us-west-1"
+  default     = "us-west-1"
 }
 
 variable "instance_ami" {
